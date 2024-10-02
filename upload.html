@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://wallpapershome.com/images/pages/ico_h/26165.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .upload-container {
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        img {
+        width: 150px;
+        height: auto; /* Ensures the aspect ratio is maintained */
+        }
+
+
+        /* Center the file input */
+        input[type="file"] {
+            display: block;
+            margin: 0 auto 20px auto;
+            text-align: center;
+        }
+
+        .upload-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .upload-btn:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="upload-container">
+        <!-- Add the image logo -->
+        <img src="_35b4399e-7c28-453b-9312-c51527019234-removebg-preview.png" alt="Logo">
+        <h1>Upload a File</h1>
+        <form id="uploadForm" enctype="multipart/form-data" action="http://localhost:8080/upload" method="POST">
+            <input type="file" name="file" id="fileInput" required>
+            <br>
+            <button type="submit" class="upload-btn">Upload</button>
+        </form>
+        <p class="message" id="message"></p>
+    </div>
+
+    <script>
+        const form = document.getElementById('uploadForm');
+        const message = document.getElementById('message');
+
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    message.textContent = 'File uploaded successfully!';
+                    message.style.color = 'green';
+                } else {
+                    message.textContent = 'Failed to upload the file. Please try again.';
+                    message.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                message.textContent = 'An error occurred. Please try again.';
+                message.style.color = 'red';
+            }
+        });
+    </script>
+
+</body>
+</html>
